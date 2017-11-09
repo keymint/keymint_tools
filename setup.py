@@ -50,9 +50,8 @@ and provides tooling to build these federated keystores together.""",
         #     'keymint_ros2_dds = keymint_tools.build_types.keymint.ros2.dds:KeymintROS2DDSBuildType',
         #     # 'keymint_dds = keymint_tools.build_types.keymint.ros2.dds:KeymintROS2DDSBuildType',
         # ],
-        # 'keymint.keyage_types': [
-        #     'keymint_ros2 = keymint_tools.keyage_types.ros2:entry_point_data',
-        #     # 'keymint_dds = keymint_tools.keyage_types.dds:entry_point_data',
-        # ],
+        'keymint.package_types': [
+            'keymint = keymint_tools.package_types.keymint:entry_point_data',
+        ],
     },
 )

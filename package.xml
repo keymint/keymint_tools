@@ -8,6 +8,7 @@
   <license>Apache License 2.0</license>
 
   <depend>keymint_cli</depend>
+  <depend>keymint_package</depend>
 
   <!-- <buildtool_depend>ament_package</buildtool_depend> -->
   <!-- <buildtool_depend>osrf_pycommon</buildtool_depend> -->
