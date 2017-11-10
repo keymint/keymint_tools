@@ -40,18 +40,17 @@ and provides tooling to build these federated keystores together.""",
         ],
         'keymint_tools.keystore.verb': [
             # 'auto = keymint_tools.command.keystore.verb.auto:AutoVerb',
-            # 'build = keymint_tools.command.keystore.verb.build:BuildVerb',
+            'build = keymint_tools.command.keystore.verb.build:BuildVerb',
             # 'create = keymint_tools.command.keystore.verb.create:CreateVerb',
             'init = keymint_tools.command.keystore.verb.init:InitVerb',
             # 'sign = keymint_tools.command.keystore.verb.sign:SignVerb',
             # 'test = keymint_tools.command.keystore.verb.test:TestVerb',
         ],
-        # 'keymint.build_types': [
-        #     'keymint_ros2_dds = keymint_tools.build_types.keymint.ros2.dds:KeymintROS2DDSBuildType',
-        #     # 'keymint_dds = keymint_tools.build_types.keymint.ros2.dds:KeymintROS2DDSBuildType',
-        # ],
+        'keymint.build_types': [
+            'keymint_ros2_dds = keymint_tools.build_types.keymint_ros2_dds:KeymintROS2DDSBuildType',
+        ],
         'keymint.package_types': [
-            'keymint = keymint_tools.package_types.keymint:entry_point_data',
+            'keymint_ros = keymint_tools.package_types.keymint_ros:entry_point_data',
         ],
     },
 )
