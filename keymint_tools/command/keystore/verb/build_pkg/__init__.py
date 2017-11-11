@@ -24,42 +24,53 @@ from keymint_tools.verb.common import FilesCompleter
 
 from osrf_pycommon.cli_utils.verb_pattern import call_prepare_arguments
 
-# from .cli import main
+from .cli import main
 
 
-class BuildVerb(VerbExtension):
-    """Build keystore."""
+class BuildPkgVerb(VerbExtension):
+    """Build Package."""
 
     def add_arguments(self, parser, cli_name):
-        """Add build arguments."""
+        """Add build package arguments."""
         arg = parser.add_argument(
-            '-C', '--directory',
-            default=os.curdir,
-            help="The base path of the workspace (default '%s')" % os.curdir,
-        )
-        arg = parser.add_argument(
-            'basepath',
+            'path',
             nargs='?',
             type=argparse_existing_dir,
-            default=os.path.join(os.curdir, 'src'),
-            help="Base path to the packages (default 'CWD/src')",
+            default=os.curdir,
+            help="Path to the package (default '%s')" % os.curdir,
         )
         arg.completer = FilesCompleter()
         arg = parser.add_argument(
-            '--only-packages',
-            nargs='+', default=[],
-            help='Only process a particular set of packages',
+            '--build-space',
+            help="Path to the build space (default 'CWD/build')",
         )
+        arg.completer = FilesCompleter()
         arg = parser.add_argument(
-            '--skip-packages',
-            nargs='*', default=[],
-            help='Set of packages to skip',
+            '--install-space',
+            help="Path to the install space (default 'CWD/install')",
         )
-        arg = parser.add_argument(
-            '--parallel',
+        arg.completer = FilesCompleter()
+        parser.add_argument(
+            '--skip-build',
             action='store_true',
-            help='Enable building packages in parallel',
+            default=False,
+            help='Skip the build step (this can be used when installing or '
+                 'testing and you know that the build has successfully run)',
         )
+        parser.add_argument(
+            '--skip-install',
+            action='store_true',
+            default=False,
+            help='Skip the install step (only makes sense when install has been '
+                 'done before using symlinks and no new files have been added or '
+                 'when testing after a successful install)',
+        )
+        # parser.add_argument(
+        #     '-s', '--symlink-install',
+        #     action='store_true',
+        #     default=False,
+        #     help='Use symlinks instead of copying files wherever possible',
+        # )
 
         # Allow all available build_type's to provide additional arguments
         for build_type in yield_supported_build_types():
@@ -70,6 +81,5 @@ class BuildVerb(VerbExtension):
 
     def main(self, *, args):
         """Call build function."""
-        # success = main(args)
-        success = True
+        success = main(args)
         return 0 if success else 1

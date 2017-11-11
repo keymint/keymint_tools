@@ -41,6 +41,7 @@ and provides tooling to build these federated keystores together.""",
         'keymint_tools.keystore.verb': [
             # 'auto = keymint_tools.command.keystore.verb.auto:AutoVerb',
             'build = keymint_tools.command.keystore.verb.build:BuildVerb',
+            'build_pkg = keymint_tools.command.keystore.verb.build_pkg:BuildPkgVerb',
             # 'create = keymint_tools.command.keystore.verb.create:CreateVerb',
             'init = keymint_tools.command.keystore.verb.init:InitVerb',
             # 'sign = keymint_tools.command.keystore.verb.sign:SignVerb',
