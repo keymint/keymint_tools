@@ -50,10 +50,10 @@ class KeymintROS2DDSBuildType(BuildType):
     def _build_action(self, context):
         pass
 
-    def on_sign(self, context):
+    def on_install(self, context):
         yield BuildAction(self._sign_action, type='function')
 
-    def _sign_action(self, context):
+    def _install_action(self, context):
         pass
 
     def _remove_empty_directories(self, context, path):
