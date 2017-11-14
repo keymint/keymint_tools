@@ -51,7 +51,11 @@ class KeymintROS2DDSBuildType(BuildType):
         yield BuildAction(self._build_action, type='function')
 
     def _build_action(self, context):
-        self.dds_permissions_helper.build(context)
+        dds_permissions_str = self.dds_permissions_helper.build(context)
+        dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
+        with open(dds_permissions_file, 'w') as f:
+            f.write(dds_permissions_str)
+
 
     def on_install(self, context):
         yield BuildAction(self._sign_action, type='function')
