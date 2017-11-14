@@ -51,7 +51,7 @@ class KeymintROS2DDSBuildType(BuildType):
         yield BuildAction(self._build_action, type='function')
 
     def _build_action(self, context):
-        self.dds_permissions_helper.interprite(context)
+        self.dds_permissions_helper.build(context)
 
     def on_install(self, context):
         yield BuildAction(self._sign_action, type='function')
