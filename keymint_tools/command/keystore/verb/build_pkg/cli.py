@@ -52,8 +52,7 @@ def get_build_type(path):
     """
     package = _get_cached_package_manifest(path)
 
-    build_type_exports = [e for e in package.exports
-                          if e.tagname == 'build_type']
+    build_type_exports = package.export.findall('build_type')
     if len(build_type_exports) > 1:
         print("The package in '%s' exports multiple build types" % path,
               file=sys.stderr)
@@ -62,7 +61,7 @@ def get_build_type(path):
     if not build_type_exports:
         return default_build_type
 
-    return build_type_exports[0].content
+    return build_type_exports[0].text
 
 
 def validate_package_path(path):
