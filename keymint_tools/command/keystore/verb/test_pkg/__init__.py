@@ -26,10 +26,8 @@ from osrf_pycommon.cli_utils.verb_pattern import call_prepare_arguments
 
 from .cli import main
 
-from keymint_tools.command.keystore.verb.build_pkg.cli import BuildPkgVerb
 
-
-class TestPkgVerb(BuildPkgVerb):
+class TestPkgVerb(VerbExtension):
     """Test Package."""
 
     def add_arguments(self, parser, cli_name):

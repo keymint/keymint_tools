@@ -21,16 +21,15 @@ from keymint_tools.build_type_discovery import get_class_for_build_type
 from keymint_tools.command.keystore.verb.build_pkg.cli import get_build_type
 from keymint_tools.command.keystore.verb.build_pkg.cli import get_context as build_pkg_get_context
 from keymint_tools.command.keystore.verb.build_pkg.cli import handle_build_action
-from keymint_tools.command.keystore.verb.build_pkg.cli import run as build_pkg_run
+# from keymint_tools.command.keystore.verb.build_pkg.cli import run as build_pkg_run
 
 
 def main(opts):
     opts.build_tests = True
     context = build_pkg_get_context(opts)
-    context.retest_until_pass = (opts.retest_until_pass > 0)
-    rc = build_pkg_run(opts, context)
-    if rc:
-        return rc
+    # rc = build_pkg_run(opts, context)
+    # if rc:
+    #     return rc
 
     # Load up build type plugin class
     build_type = get_build_type(opts.path)

@@ -20,6 +20,7 @@ import os
 
 # from keymint_package.templates import configure_file
 
+from keymint_package.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
 from keymint_package.governance import DDSGovernanceHelper
 from keymint_package.permissions import DDSPermissionsHelper
 
@@ -69,17 +70,25 @@ class KeymintROS2DDSBuildType(BuildType):
         yield BuildAction(self._test_action, type='function')
 
     def _test_action(self, context):
-        if context.package_manifest.permissions is not None:
-            dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
-            with open(dds_permissions_file, 'r') as f:
-                dds_permissions_str = f.read()
-            self.dds_permissions_helper.test(dds_permissions_str, dds_permissions_file)
+        try:
+            if context.package_manifest.permissions is not None:
+                print("++++ Testing '{0}'".format('permissions.xml'))
+                dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
+                with open(dds_permissions_file, 'r') as f:
+                    dds_permissions_str = f.read()
+                self.dds_permissions_helper.test(dds_permissions_str, dds_permissions_file)
+        except InvalidPermissionsXML as ex:
+            print(ex)
 
-        if context.package_manifest.governance is not None:
-            dds_governance_file = os.path.join(context.build_space, 'governance.xml')
-            with open(dds_governance_file, 'r') as f:
-                dds_governance_str = f.read()
-            self.dds_governance_helper.test(dds_governance_str, dds_governance_file)
+        try:
+            if context.package_manifest.governance is not None:
+                print("++++ Testing '{0}'".format('governance.xml'))
+                dds_governance_file = os.path.join(context.build_space, 'governance.xml')
+                with open(dds_governance_file, 'r') as f:
+                    dds_governance_str = f.read()
+                self.dds_governance_helper.test(dds_governance_str, dds_governance_file)
+        except InvalidGovernanceXML as ex:
+            print(ex)
 
     def on_install(self, context):
         yield BuildAction(self._sign_action, type='function')
