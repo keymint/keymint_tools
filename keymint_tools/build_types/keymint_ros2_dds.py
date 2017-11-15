@@ -63,6 +63,24 @@ class KeymintROS2DDSBuildType(BuildType):
         with open(dds_governance_file, 'w') as f:
             f.write(dds_governance_str)
 
+    def on_test(self, context):
+        self.dds_permissions_helper = DDSPermissionsHelper()
+        self.dds_governance_helper = DDSGovernanceHelper()
+        yield BuildAction(self._test_action, type='function')
+
+    def _test_action(self, context):
+        if context.package_manifest.permissions is not None:
+            dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
+            with open(dds_permissions_file, 'r') as f:
+                dds_permissions_str = f.read()
+            self.dds_permissions_helper.test(dds_permissions_str, dds_permissions_file)
+
+        if context.package_manifest.governance is not None:
+            dds_governance_file = os.path.join(context.build_space, 'governance.xml')
+            with open(dds_governance_file, 'r') as f:
+                dds_governance_str = f.read()
+            self.dds_governance_helper.test(dds_governance_str, dds_governance_file)
+
     def on_install(self, context):
         yield BuildAction(self._sign_action, type='function')
 

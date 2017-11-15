@@ -191,6 +191,9 @@ class BuildType:
     def on_build(self, context):
         raise NotImplementedError
 
+    def on_test(self, context):
+        raise NotImplementedError
+
     def on_install(self, context):
         raise NotImplementedError
 
