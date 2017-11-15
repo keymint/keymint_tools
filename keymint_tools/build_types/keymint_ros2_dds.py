@@ -20,7 +20,8 @@ import os
 
 # from keymint_package.templates import configure_file
 
-from keymint_package.helper import DDSPermissionsHelper
+from keymint_package.governance import DDSGovernanceHelper
+from keymint_package.permissions import DDSPermissionsHelper
 
 from keymint_tools.build_type import BuildAction
 from keymint_tools.build_type import BuildType
@@ -48,6 +49,7 @@ class KeymintROS2DDSBuildType(BuildType):
 
     def on_build(self, context):
         self.dds_permissions_helper = DDSPermissionsHelper()
+        self.dds_governance_helper = DDSGovernanceHelper()
         yield BuildAction(self._build_action, type='function')
 
     def _build_action(self, context):
@@ -56,6 +58,10 @@ class KeymintROS2DDSBuildType(BuildType):
         with open(dds_permissions_file, 'w') as f:
             f.write(dds_permissions_str)
 
+        dds_governance_str = self.dds_governance_helper.build(context)
+        dds_governance_file = os.path.join(context.build_space, 'governance.xml')
+        with open(dds_governance_file, 'w') as f:
+            f.write(dds_governance_str)
 
     def on_install(self, context):
         yield BuildAction(self._sign_action, type='function')
