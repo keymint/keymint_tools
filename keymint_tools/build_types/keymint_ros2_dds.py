@@ -23,6 +23,7 @@ import os
 from keymint_package.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
 from keymint_package.governance import DDSGovernanceHelper
 from keymint_package.permissions import DDSPermissionsHelper
+from keymint_package.identities import DDSIdentitiesHelper
 
 from keymint_tools.build_type import BuildAction
 from keymint_tools.build_type import BuildType
@@ -51,18 +52,33 @@ class KeymintROS2DDSBuildType(BuildType):
     def on_build(self, context):
         self.dds_permissions_helper = DDSPermissionsHelper()
         self.dds_governance_helper = DDSGovernanceHelper()
+        self.dds_identities_helper = DDSIdentitiesHelper()
         yield BuildAction(self._build_action, type='function')
 
     def _build_action(self, context):
-        dds_permissions_str = self.dds_permissions_helper.build(context)
-        dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
-        with open(dds_permissions_file, 'w') as f:
-            f.write(dds_permissions_str)
+        if context.package_manifest.permissions is not None:
+            print("++++ Building '{0}'".format('permissions.xml'))
+            dds_permissions_str = self.dds_permissions_helper.build(context)
+            dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
+            with open(dds_permissions_file, 'w') as f:
+                f.write(dds_permissions_str)
 
-        dds_governance_str = self.dds_governance_helper.build(context)
-        dds_governance_file = os.path.join(context.build_space, 'governance.xml')
-        with open(dds_governance_file, 'w') as f:
-            f.write(dds_governance_str)
+        if context.package_manifest.governance is not None:
+            print("++++ Building '{0}'".format('governance.xml'))
+            dds_governance_str = self.dds_governance_helper.build(context)
+            dds_governance_file = os.path.join(context.build_space, 'governance.xml')
+            with open(dds_governance_file, 'w') as f:
+                f.write(dds_governance_str)
+
+        if context.package_manifest.identities is not None:
+            print("++++ Building '{0}'".format(['key.pem', 'csr.pem']))
+            key, csr = self.dds_identities_helper.build(context)
+            dds_key_file = os.path.join(context.build_space, 'key.pem')
+            dds_csr_file = os.path.join(context.build_space, 'csr.pem')
+            with open(dds_key_file, 'wb') as f:
+                f.write(key)
+            with open(dds_csr_file, 'wb') as f:
+                f.write(csr)
 
     def on_test(self, context):
         self.dds_permissions_helper = DDSPermissionsHelper()
@@ -71,7 +87,8 @@ class KeymintROS2DDSBuildType(BuildType):
 
     def _test_action(self, context):
         try:
-            if context.package_manifest.permissions is not None:
+            dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
+            if os.path.isfile(dds_permissions_file):
                 print("++++ Testing '{0}'".format('permissions.xml'))
                 dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
                 with open(dds_permissions_file, 'r') as f:
@@ -81,7 +98,8 @@ class KeymintROS2DDSBuildType(BuildType):
             print(ex)
 
         try:
-            if context.package_manifest.governance is not None:
+            dds_governance_file = os.path.join(context.build_space, 'governance.xml')
+            if os.path.isfile(dds_governance_file):
                 print("++++ Testing '{0}'".format('governance.xml'))
                 dds_governance_file = os.path.join(context.build_space, 'governance.xml')
                 with open(dds_governance_file, 'r') as f:
