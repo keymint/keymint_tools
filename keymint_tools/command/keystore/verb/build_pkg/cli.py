@@ -170,12 +170,15 @@ def run(opts, context):
         handle_build_action(on_build_ret, context)
         # expand_prefix_level_setup_files(context)
 
-    # if not opts.skip_install:
-    #     # Run the install command
-    #     print("+++ Installing '{0}'".format(pkg_name))
-    #     on_install_ret = build_type_impl.on_install(context)
-    #     handle_build_action(on_install_ret, context)
-    #     # deploy_prefix_level_setup_files(context)
+    if not opts.skip_install:
+        if not os.path.exists(context.install_space) and not context.dry_run:
+            os.makedirs(context.install_space, exist_ok=True)
+
+        # Run the install command
+        print("+++ Installing '{0}'".format(pkg_name))
+        on_install_ret = build_type_impl.on_install(context)
+        handle_build_action(on_install_ret, context)
+        # deploy_prefix_level_setup_files(context)
 
 
 def update_options(opts):
@@ -189,6 +192,10 @@ def update_options(opts):
                                                opts.build_space, 'build')
     opts.install_space = determine_path_argument(cwd, opts.directory,
                                                  opts.install_space, 'install')
+    opts.public_space = determine_path_argument(cwd, opts.directory,
+                                                opts.public_space, 'public')
+    opts.private_space = determine_path_argument(cwd, opts.directory,
+                                                 opts.private_space, 'private')
 
     try:
         validate_package_path(opts.path)
@@ -206,6 +213,8 @@ def create_context(opts):
     # expand the build path using the pkg_namespace as subpath
     context.build_space = os.path.join(opts.build_space, pkg_namespace)
     context.install_space = os.path.join(opts.install_space, pkg_namespace)
+    context.public_space = opts.public_space
+    context.private_space = opts.private_space
     context.install = True
     # context.symlink_install = opts.symlink_install
     context.dry_run = False
@@ -216,6 +225,8 @@ def create_context(opts):
         'source_space',
         'build_space',
         'install_space',
+        'public_space',
+        'private_space',
     ]
     max_key_len = str(max(len(k) for k in keys))
     for key in keys:

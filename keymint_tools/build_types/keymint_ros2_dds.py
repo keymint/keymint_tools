@@ -15,6 +15,7 @@
 """Implements the BuildType support for ros2 based keymint packages."""
 
 import os
+import shutil
 # import re
 # import shutil
 
@@ -72,7 +73,9 @@ class KeymintROS2DDSBuildType(BuildType):
 
         if context.package_manifest.identities is not None:
             print("++++ Building '{0}'".format(['key.pem', 'csr.pem']))
+            # returns an array of identities but currently len(dds_identities) == 1
             dds_identities = self.dds_identities_helper.build(context)
+            # TODO to think if multple identities should be a thing
             for dds_identity in dds_identities:
                 dds_key_file = os.path.join(context.build_space, 'key.pem')
                 dds_csr_file = os.path.join(context.build_space, 'csr.pem')
@@ -110,10 +113,26 @@ class KeymintROS2DDSBuildType(BuildType):
             print(ex)
 
     def on_install(self, context):
-        yield BuildAction(self._sign_action, type='function')
+        self.dds_permissions_helper = DDSPermissionsHelper()
+        self.dds_governance_helper = DDSGovernanceHelper()
+        self.dds_identities_helper = DDSIdentitiesHelper()
+        yield BuildAction(self._install_action, type='function')
 
     def _install_action(self, context):
-        pass
+        if context.package_manifest.identities is not None:
+            print("++++ Install '{0}'".format(['key.pem', 'cert.pem']))
+            dds_identity = {}
+            # Install key
+            dds_key_file = os.path.join(context.build_space, 'key.pem')
+            shutil.copy(dds_key_file, context.install_space)
+            # Install cert
+            dds_csr_file = os.path.join(context.build_space, 'csr.pem')
+            dds_cert_file = os.path.join(context.install_space, 'cert.pem')
+            with open(dds_csr_file, 'rb') as f:
+                dds_identity['dds_csr'] = {'bytes': f.read()}
+            self.dds_identities_helper.install(context, dds_identity)
+            with open(dds_cert_file, 'wb') as f:
+                f.write(dds_identity['dds_cert']['bytes'])
 
     def _remove_empty_directories(self, context, path):
         assert path.startswith(context.install_space), \

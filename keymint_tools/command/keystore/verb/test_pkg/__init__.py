@@ -50,6 +50,16 @@ class TestPkgVerb(VerbExtension):
             help="Path to the install space (default 'CWD/install')",
         )
         arg.completer = FilesCompleter()
+        arg = parser.add_argument(
+            '--public_space',
+            help="Path to the public space (default 'CWD/public')",
+        )
+        arg.completer = FilesCompleter()
+        arg = parser.add_argument(
+            '--private_space',
+            help="Path to the private space (default 'CWD/private')",
+        )
+        arg.completer = FilesCompleter()
         parser.add_argument(
             '--skip-build',
             action='store_true',
