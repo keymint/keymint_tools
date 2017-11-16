@@ -72,13 +72,14 @@ class KeymintROS2DDSBuildType(BuildType):
 
         if context.package_manifest.identities is not None:
             print("++++ Building '{0}'".format(['key.pem', 'csr.pem']))
-            key, csr = self.dds_identities_helper.build(context)
-            dds_key_file = os.path.join(context.build_space, 'key.pem')
-            dds_csr_file = os.path.join(context.build_space, 'csr.pem')
-            with open(dds_key_file, 'wb') as f:
-                f.write(key)
-            with open(dds_csr_file, 'wb') as f:
-                f.write(csr)
+            dds_identities = self.dds_identities_helper.build(context)
+            for dds_identity in dds_identities:
+                dds_key_file = os.path.join(context.build_space, 'key.pem')
+                dds_csr_file = os.path.join(context.build_space, 'csr.pem')
+                with open(dds_key_file, 'wb') as f:
+                    f.write(dds_identity['dds_key']['bytes'])
+                with open(dds_csr_file, 'wb') as f:
+                    f.write(dds_identity['dds_csr']['bytes'])
 
     def on_test(self, context):
         self.dds_permissions_helper = DDSPermissionsHelper()
