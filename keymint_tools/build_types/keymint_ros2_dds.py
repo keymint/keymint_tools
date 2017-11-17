@@ -95,7 +95,10 @@ class KeymintROS2DDSBuildType(BuildType):
                 dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
                 with open(dds_permissions_file, 'r') as f:
                     dds_permissions_str = f.read()
-                self.dds_permissions_helper.test(dds_permissions_str, dds_permissions_file)
+                self.dds_permissions_helper.test(
+                    context,
+                    dds_permissions_str,
+                    dds_permissions_file)
         except InvalidPermissionsXML as ex:
             print(ex)
 
@@ -106,7 +109,10 @@ class KeymintROS2DDSBuildType(BuildType):
                 dds_governance_file = os.path.join(context.build_space, 'governance.xml')
                 with open(dds_governance_file, 'r') as f:
                     dds_governance_str = f.read()
-                self.dds_governance_helper.test(dds_governance_str, dds_governance_file)
+                self.dds_governance_helper.test(
+                    context,
+                    dds_governance_str,
+                    dds_governance_file)
         except InvalidGovernanceXML as ex:
             print(ex)
 
@@ -117,8 +123,32 @@ class KeymintROS2DDSBuildType(BuildType):
         yield BuildAction(self._install_action, type='function')
 
     def _install_action(self, context):
+        if context.package_manifest.permissions is not None:
+            print("++++ Installing '{0}'".format('permissions.p7s'))
+            dds_permissions_file = os.path.join(context.build_space, 'permissions.xml')
+            dds_permissions_file_singed = os.path.join(context.install_space, 'permissions.p7s')
+            with open(dds_permissions_file, 'rb') as f:
+                dds_permissions_bytes = f.read()
+            dds_permissions_bytes_singed = self.dds_permissions_helper.install(
+                context,
+                dds_permissions_bytes)
+            with open(dds_permissions_file_singed, 'wb') as f:
+                f.write(dds_permissions_bytes_singed)
+
+        if context.package_manifest.governance is not None:
+            print("++++ Installing '{0}'".format('governance.p7s'))
+            dds_governance_file = os.path.join(context.build_space, 'governance.xml')
+            dds_governance_file_singed = os.path.join(context.install_space, 'governance.p7s')
+            with open(dds_governance_file, 'rb') as f:
+                dds_governance_bytes = f.read()
+            dds_governance_bytes_singed = self.dds_governance_helper.install(
+                context,
+                dds_governance_bytes)
+            with open(dds_governance_file_singed, 'wb') as f:
+                f.write(dds_governance_bytes_singed)
+
         if context.package_manifest.identities is not None:
-            print("++++ Install '{0}'".format(['key.pem', 'cert.pem']))
+            print("++++ Installing '{0}'".format(['key.pem', 'cert.pem']))
             dds_identity = {}
             # Install key
             dds_key_file = os.path.join(context.build_space, 'key.pem')

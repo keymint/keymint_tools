@@ -8,6 +8,13 @@ cryptography
 osrf_pycommon
 xmlschema
 
+# install M2Crypto from python 3 branch for s/mime singing
+# https://gitlab.com/m2crypto/m2crypto/merge_requests/65
+# Build dependencies for M2Crypto on Debian:
+# sudo apt-get install build-essential python3-dev python-dev libssl-dev swig
+git+https://gitlab.com/m2crypto/m2crypto.git@python3#egg=m2crypto
+
+
 # keymint packages from sources
 git+git://github.com/keymint/keymint_cli.git@master#egg=keymint_cli
 git+git://github.com/keymint/keymint_keymake.git@package#egg=keymint_keymake

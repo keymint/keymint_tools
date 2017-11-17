@@ -6,6 +6,14 @@ RUN apt-get update && apt-get install -y \
       python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+# install M2Crypto dependencies
+RUN apt-get update && apt-get install -y \
+      build-essential \
+      python3-dev \
+      libssl-dev \
+      swig \
+    && rm -rf /var/lib/apt/lists/*
+
 # install keymint dependencies
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
