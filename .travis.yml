@@ -2,31 +2,36 @@ language: python
 python:
   - "3.5"
 sudo: false
+addons:
+  apt:
+    packages:
+    - build-essential
+    - libssl-dev
+    - python3-dev
+    - swig
 install:
+# Install runtime dependencies from PyPI
+  - pip install argcomplete
+  - pip install attrdict
+  - pip install cryptography
+  - pip install osrf_pycommon
+  - pip install xmlschema
+# Install M2Crypto from git via python 3 branch for s/mime singing
+  - pip install git+https://gitlab.com/m2crypto/m2crypto.git@python3#egg=m2crypto
+# Install dependent keymint packages from git
+  - pip install git+git://github.com/keymint/keymint_cli.git@master#egg=keymint_cli
+  - pip install git+git://github.com/keymint/keymint_keymake.git@master#egg=keymint_keymake
+  - pip install git+git://github.com/keymint/keymint_package.git@master#egg=keymint_package
+# Install test dependencies from PyPI
   - pip install nose
   - pip install flake8 pydocstyle
-# For now install ament_package from git
-  - git clone https://github.com/ament/ament_package.git
-  - cd ament_package
-  - python setup.py install
-  - cd ..
-# For now install osrf_pycommon from git
-  # - git clone https://github.com/osrf/osrf_pycommon.git
-  # - cd osrf_pycommon
-  # - python setup.py install
-  # - cd ..
-# For now install ament_copyright / ament_flake8 / ament_pep257 from git
-  - git clone https://github.com/ament/ament_lint.git
-  - cd ament_lint/ament_copyright
-  - python setup.py install
-  - cd ../..
-  - cd ament_lint/ament_flake8
-  - python setup.py install
-  - cd ../..
-  - cd ament_lint/ament_pep257
-  - python setup.py install
-  - cd ../..
+# Install ament_copyright / ament_flake8 / ament_pep257 from git
+  - cd /tmp
+  - pip install --editable 'git+git://github.com/ament/ament_lint.git@master#egg=ament_copyright&subdirectory=ament_copyright'
+  - pip install --editable 'git+git://github.com/ament/ament_lint.git@master#egg=ament_flake8&subdirectory=ament_flake8'
+  - pip install --editable 'git+git://github.com/ament/ament_lint.git@master#egg=ament_pep257&subdirectory=ament_pep257'
 script:
-  - python setup.py nosetests -s
+  - cd $TRAVIS_BUILD_DIR
+  - python setup.py nosetests --nocapture
 notifications:
   email: false
