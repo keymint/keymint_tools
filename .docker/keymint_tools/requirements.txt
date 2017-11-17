@@ -1,0 +1,15 @@
+# requirements.txt
+# http://pip.readthedocs.io/en/stable/reference/pip_install/#requirements-file-format
+
+# keymint dependencies from PyPI
+argcomplete
+attrdict
+cryptography
+osrf_pycommon
+xmlschema
+
+# keymint packages from sources
+git+git://github.com/keymint/keymint_cli.git@master#egg=keymint_cli
+git+git://github.com/keymint/keymint_keymake.git@package#egg=keymint_keymake
+git+git://github.com/keymint/keymint_package.git@package#egg=keymint_package
+git+git://github.com/keymint/keymint_tools.git@package#egg=keymint_tools
