@@ -19,10 +19,6 @@ import shlex
 import subprocess
 import sys
 
-# from ament_package.templates import configure_file
-# from ament_package.templates import get_prefix_level_template_names
-# from ament_package.templates import get_prefix_level_template_path
-
 from keymint_tools.build_type_discovery import get_class_for_build_type
 # from keymint_tools.build_type_discovery import MissingPluginError
 from keymint_tools.context import Context

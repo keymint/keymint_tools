@@ -19,12 +19,10 @@ import shutil
 # import re
 # import shutil
 
-# from keymint_package.templates import configure_file
-
-from keymint_package.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
-from keymint_package.governance import DDSGovernanceHelper
-from keymint_package.permissions import DDSPermissionsHelper
-from keymint_package.identities import DDSIdentitiesHelper
+from keymint_keymake.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
+from keymint_keymake.governance import DDSGovernanceHelper
+from keymint_keymake.permissions import DDSPermissionsHelper
+from keymint_keymake.identities import DDSIdentitiesHelper
 
 from keymint_tools.build_type import BuildAction
 from keymint_tools.build_type import BuildType
