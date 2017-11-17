@@ -60,14 +60,6 @@ class Context(AttrDict):
             lines.append(('{0:<' + max_key_length + '} => {1}').format(k, v))
         return '\n'.join(lines)
 
-    # def __getattribute__(self, name):
-    #     if name in list(dict.keys(self)):
-    #         return self[name]
-    #     return dict.__getattribute__(self, name)
-    #
-    # def __setattr__(self, name, value):
-    #     self[name] = value
-
 
 class ContextExtender:
     """
