@@ -16,12 +16,12 @@ from .context import ContextExtender
 from .base_type import BaseAction, BaseType, DefaultBaseTypeLogger
 
 
-class BuildAction(BaseAction):
+class ProfileAction(BaseAction):
     """
-    Represent an action to do at build time, either a command or a functor.
+    Represent an action to do at profile time, either a command or a functor.
 
     These objects are yielded from the ``on_*`` methods in the BuildType class
-    for a particular ``build_type``.
+    for a particular ``profile_type``.
 
     The constructor for this class takes a cmd, a type, optionally a title,
     optionally a dry run cmd, optionally a different current working directory
@@ -43,7 +43,7 @@ class BuildAction(BaseAction):
     dry run case, e.g. ``['git', 'push']`` might become
     ``['git', 'push', '--dry-run']``.
 
-    The default working directory for commands is the build space which can be
+    The default working directory for commands is the profile space which can be
     overridden with the optional ``cwd`` parameter.
 
     The environment used when running the command can be overridden using the
@@ -51,28 +51,28 @@ class BuildAction(BaseAction):
     """
 
 
-class DefaultBuildTypeLogger(DefaultBaseTypeLogger):
+class DefaultProfileTypeLogger(DefaultBaseTypeLogger):
     """
-    Build class logger for using with BuildType.
+    Profile class logger for using with ProfileType.
 
-    This class provides an logging for events in ``BuildType``
+    This class provides an logging for events in ``ProfileType``
     """
 
 
-class BuildType(BaseType):
+class ProfileType(BaseType):
     """
-    Base class interface for building a ``build_type`` with keymint tools.
+    Base class interface for interpreting a ``profile_type`` with keymint tools.
 
-    This class provides an interface for how to handle building of keymint
-    ``build_type``'s, but it cannot be used as is and requires subclassing.
+    This class provides an interface for how to handle interpreting of keymint
+    ``profile_type``'s, but it cannot be used as is and requires subclassing.
 
     When subclassing this class, the only functions which raise a
-    :py:exc:`NotImplementedError` by default are :py:meth:`on_build`,
-    :py:func:`on_test`, :py:func:`on_install` and :py:func:`on_uninstall`.
+    :py:exc:`NotImplementedError` by default are :py:meth:`on_init`,
+    :py:func:`on_create`.
     Therefore those functions need to be overridden.
     """
 
-    build_type = None
+    profile_type = None
     """
     Build type identification string.
 
@@ -82,19 +82,16 @@ class BuildType(BaseType):
 
     description = None
     """
-    Description of this build type.
+    Description of this profile type.
 
     This should be set by the subclass.
     """
 
-    logger = DefaultBuildTypeLogger()
+    logger = DefaultProfileTypeLogger()
     """Logging singleton, allows executor to hook in a custom logger."""
 
-    def on_build(self, context):
+    def on_init(self, context):
         raise NotImplementedError
 
-    def on_test(self, context):
-        raise NotImplementedError
-
-    def on_install(self, context):
+    def on_create(self, context):
         raise NotImplementedError
