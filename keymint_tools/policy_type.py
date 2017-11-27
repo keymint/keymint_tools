@@ -16,12 +16,12 @@ from .context import ContextExtender
 from .base_type import BaseAction, BaseType, DefaultBaseTypeLogger
 
 
-class ProfileAction(BaseAction):
+class PolicyAction(BaseAction):
     """
-    Represent an action to do at profile time, either a command or a functor.
+    Represent an action to do at policy time, either a command or a functor.
 
     These objects are yielded from the ``on_*`` methods in the BuildType class
-    for a particular ``profile_type``.
+    for a particular ``policy_type``.
 
     The constructor for this class takes a cmd, a type, optionally a title,
     optionally a dry run cmd, optionally a different current working directory
@@ -43,7 +43,7 @@ class ProfileAction(BaseAction):
     dry run case, e.g. ``['git', 'push']`` might become
     ``['git', 'push', '--dry-run']``.
 
-    The default working directory for commands is the profile space which can be
+    The default working directory for commands is the source space which can be
     overridden with the optional ``cwd`` parameter.
 
     The environment used when running the command can be overridden using the
@@ -51,20 +51,20 @@ class ProfileAction(BaseAction):
     """
 
 
-class DefaultProfileTypeLogger(DefaultBaseTypeLogger):
+class DefaultPolicyTypeLogger(DefaultBaseTypeLogger):
     """
-    Profile class logger for using with ProfileType.
+    Policy class logger for using with PolicyType.
 
-    This class provides an logging for events in ``ProfileType``
+    This class provides an logging for events in ``PolicyType``
     """
 
 
-class ProfileType(BaseType):
+class PolicyType(BaseType):
     """
-    Base class interface for interpreting a ``profile_type`` with keymint tools.
+    Base class interface for interpreting a ``policy_type`` with keymint tools.
 
     This class provides an interface for how to handle interpreting of keymint
-    ``profile_type``'s, but it cannot be used as is and requires subclassing.
+    ``policy_type``'s, but it cannot be used as is and requires subclassing.
 
     When subclassing this class, the only functions which raise a
     :py:exc:`NotImplementedError` by default are :py:meth:`on_init`,
@@ -72,7 +72,7 @@ class ProfileType(BaseType):
     Therefore those functions need to be overridden.
     """
 
-    profile_type = None
+    policy_type = None
     """
     Build type identification string.
 
@@ -82,12 +82,12 @@ class ProfileType(BaseType):
 
     description = None
     """
-    Description of this profile type.
+    Description of this policy type.
 
     This should be set by the subclass.
     """
 
-    logger = DefaultProfileTypeLogger()
+    logger = DefaultPolicyTypeLogger()
     """Logging singleton, allows executor to hook in a custom logger."""
 
     def on_init(self, context):

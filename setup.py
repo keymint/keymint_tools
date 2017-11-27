@@ -42,18 +42,23 @@ and provides tooling to build these federated keystores together.""",
             # 'auto = keymint_tools.command.keystore.verb.auto:AutoVerb',
             # 'build = keymint_tools.command.keystore.verb.build:BuildVerb',
             'build_pkg = keymint_tools.command.keystore.verb.build_pkg:BuildPkgVerb',
-            'test_pkg = keymint_tools.command.keystore.verb.test_pkg:TestPkgVerb',
             # 'create = keymint_tools.command.keystore.verb.create:CreateVerb',
-            # 'init = keymint_tools.command.keystore.verb.init:InitVerb',
-            # 'sign = keymint_tools.command.keystore.verb.sign:SignVerb',
+            # 'create_pkg = keymint_tools.command.keystore.verb.create_pkg:CreatePkgVerb',
+            'init = keymint_tools.command.keystore.verb.init:InitVerb',
             # 'test = keymint_tools.command.keystore.verb.test:TestVerb',
-            # 'test_pkg = keymint_tools.command.keystore.verb.test_pkg:TestPkgVerb',
+            'test_pkg = keymint_tools.command.keystore.verb.test_pkg:TestPkgVerb',
         ],
         'keymint.build_types': [
             'keymint_ros2_dds = keymint_tools.build_types.keymint_ros2_dds:KeymintROS2DDSBuildType',
         ],
         'keymint.package_types': [
             'keymint_ros = keymint_tools.package_types.keymint_ros:entry_point_data',
+        ],
+        'keymint.profile_types': [
+            'keymint_ros = keymint_tools.profile_types.keymint_ros:entry_point_data',
+        ],
+        'keymint.policy_types': [
+            'keymint_ros2_comarmor = keymint_tools.policy_types.keymint_ros2_comarmor:KeymintROS2ComarmorPolicyType',
         ],
     },
 )
