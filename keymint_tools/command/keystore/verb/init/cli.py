@@ -57,18 +57,6 @@ def get_policy_type(path):
     return policy_type_exports[0].text
 
 
-# def validate_package_name(name):
-#     """
-#     Assert the given name follows naming conventions.
-#
-#     :param str name: name of the package
-#     :raises: ValueError if name does not follow naming conventions
-#     """
-#     valid_package_name_regexp = '([^/ ]+/*)+(?<!/)'
-#     if not re.match(valid_package_name_regexp, name):
-#         raise ValueError("Package name '{0}' does not follow naming conventions".format(name))
-
-
 def handle_policy_action(policy_action_ret, context, default_cwd):
     handle_base_action(policy_action_ret, context, default_cwd)
 
@@ -90,9 +78,6 @@ def run(opts, context):
 
     prf_name = context.profile_manifest.name
 
-    # if not os.path.exists(context.source_space) and not context.dry_run:
-    #     os.makedirs(context.source_space, exist_ok=True)
-
     # Run the create command
     print("+++ Initializing '{0}'".format(prf_name))
     on_init_ret = policy_type_impl.on_init(context)
@@ -111,26 +96,12 @@ def update_options(opts):
     opts.private_space = determine_path_argument(cwd, opts.directory,
                                                  opts.private_space, 'private')
 
-    # try:
-    #     validate_package_name(opts.name)
-    # except ValueError as exc:
-    #     sys.exit('Error: {0}'.format(exc))
-
 
 def create_context(opts):
     # Setup init profile context
     context = Context()
     context.profile_manifest = _get_cached_profile_manifest(opts.profile_space)
     prf_name = context.profile_manifest.name
-
-    # pkg_name = opts.name
-    # if pkg_name:
-    #     if opts.source_space is None:
-    #         pkg_namespace = os.path.normpath(pkg_name)
-    #         # expand the source path using the pkg_namespace as subpath
-    #         source_space = determine_path_argument(cwd, opts.directory,
-    #                                                opts.source_space, 'src')
-    #         context.source_space = os.path.join(source_space, pkg_namespace)
 
     # context.source_space = opts.source_space
     context.profile_space = opts.profile_space
@@ -143,9 +114,9 @@ def create_context(opts):
     print('-' * 80)
     keys = [
         # 'source_space',
+        'private_space',
         'profile_space',
         'public_space',
-        'private_space',
     ]
     max_key_len = str(max(len(k) for k in keys))
     for key in keys:
