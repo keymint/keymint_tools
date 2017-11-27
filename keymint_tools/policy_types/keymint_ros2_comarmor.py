@@ -20,9 +20,9 @@ import shutil
 # import shutil
 
 # from keymint_keymake.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
-# from keymint_keymake.governance import DDSGovernanceHelper
-# from keymint_keymake.permissions import DDSPermissionsHelper
-# from keymint_keymake.identities import DDSIdentitiesHelper
+from keymint_keymake.governance import DDSGovernanceHelper
+from keymint_keymake.permissions import DDSPermissionsHelper
+from keymint_keymake.identities import DDSIdentitiesHelper
 from keymint_keymake.authorities import DDSAuthoritiesHelper
 
 from keymint_tools.policy_type import PolicyAction
@@ -76,11 +76,12 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
                     f.write(dds_authority['dds_cert']['bytes'])
 
 
-    # def on_create(self, context):
-    #     self.dds_permissions_helper = DDSPermissionsHelper()
-    #     self.dds_governance_helper = DDSGovernanceHelper()
-    #     self.dds_identities_helper = DDSIdentitiesHelper()
-    #     yield PolicyAction(self._create_action, type='function')
-    #
-    # def _create_action(self, context):
-    #     pass
+    def on_create_pkg(self, context):
+        self.dds_permissions_helper = DDSPermissionsHelper()
+        self.dds_governance_helper = DDSGovernanceHelper()
+        self.dds_identities_helper = DDSIdentitiesHelper()
+        yield PolicyAction(self._create_pkg_action, type='function')
+
+    def _create_pkg_action(self, context):
+        print("HUZA {}".format(context.pkg_name))
+        pass
