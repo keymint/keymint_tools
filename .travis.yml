@@ -22,6 +22,7 @@ install:
   - pip install git+git://github.com/keymint/keymint_cli.git@master#egg=keymint_cli
   - pip install git+git://github.com/keymint/keymint_keymake.git@master#egg=keymint_keymake
   - pip install git+git://github.com/keymint/keymint_package.git@master#egg=keymint_package
+  - pip install git+git://github.com/keymint/keymint_profile.git@master#egg=keymint_profile
 # Install test dependencies from PyPI
   - pip install nose
   - pip install flake8 pydocstyle

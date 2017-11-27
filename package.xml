@@ -12,6 +12,7 @@
   <exec_depend>keymint_cli</exec_depend>
   <exec_depend>keymint_keymake</exec_depend>
   <exec_depend>keymint_package</exec_depend>
+  <exec_depend>keymint_profile</exec_depend>
 
   <!-- <exec_depend>python3-argcomplete</exec_depend> -->
   <exec_depend>python3-attrdict</exec_depend>
