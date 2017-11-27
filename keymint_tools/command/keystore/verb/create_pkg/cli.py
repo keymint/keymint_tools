@@ -108,9 +108,9 @@ def create_context(opts):
     print('-' * 80)
     keys = [
         'source_space',
+        'private_space',
         'profile_space',
         'public_space',
-        'private_space',
     ]
     max_key_len = str(max(len(k) for k in keys))
     for key in keys:
