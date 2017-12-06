@@ -52,6 +52,20 @@ class InitVerb(VerbExtension):
             '--private_space',
             help="Path to the private space (default 'CWD/private')",
         )
+        arg = parser.add_argument(
+            '--skip-build',
+            action='store_true',
+            default=False,
+            help='Skip the build step (this can be used when installing or '
+                 'testing and you know that the build has successfully run)',
+        )
+        arg = parser.add_argument(
+            '--skip-install',
+            action='store_true',
+            default=False,
+            help='Skip the install step (only makes sense when build has been '
+                 'done before and no new files have been added or)',
+        )
 
         # Allow all available policy_type's to provide additional arguments
         for policy_type in yield_supported_policy_types():

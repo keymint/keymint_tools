@@ -78,6 +78,13 @@ def run(opts, context):
 
     prf_name = context.profile_manifest.name
 
+    if not opts.skip_build:
+        if not os.path.exists(context.private_space) and not context.dry_run:
+            os.makedirs(context.private_space, exist_ok=True)
+    if not opts.skip_install:
+        if not os.path.exists(context.public_space) and not context.dry_run:
+            os.makedirs(context.public_space, exist_ok=True)
+
     # Run the create command
     print("+++ Initializing '{0}'".format(prf_name))
     on_init_ret = policy_type_impl.on_init(context)
