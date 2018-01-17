@@ -1,13 +1,13 @@
 FROM ubuntu:xenial
 
 # install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -q -y \
       git \
       python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # install M2Crypto dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -q -y \
       build-essential \
       python3-dev \
       libssl-dev \
