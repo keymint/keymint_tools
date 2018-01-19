@@ -23,6 +23,7 @@ from keymint_tools.helper import determine_path_argument
 # from ament_tools.helper import extract_argument_group
 from keymint_tools.profile_types import profile_exists_at
 from keymint_tools.profile_types import parse_profile
+from keymint_tools.profile_types import bootstrap_profile
 
 from keymint_tools.base_type_helper import handle_base_action
 
@@ -105,6 +106,11 @@ def update_options(opts):
 
 
 def create_context(opts):
+    if opts.bootstrap:
+        # if not os.path.exists(opts.profile_space):
+        #     os.makedirs(opts.profile_space, exist_ok=True)
+        bootstrap_profile(opts.profile_space, opts.bootstrap)
+
     # Setup init profile context
     context = Context()
     context.profile_manifest = _get_cached_profile_manifest(opts.profile_space)

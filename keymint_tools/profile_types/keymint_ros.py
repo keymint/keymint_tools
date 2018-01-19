@@ -15,6 +15,7 @@
 from keymint_profile import PROFILE_MANIFEST_FILENAME
 from keymint_profile import profile_exists_at
 from keymint_profile import parse_profile
+from keymint_profile import bootstrap_profile
 
 __all__ = ('entry_point_data')
 
@@ -24,5 +25,6 @@ entry_point_data = {
     'description': "A profile containing a '%s' manifest file." % PROFILE_MANIFEST_FILENAME,
     'profile_exists_at': profile_exists_at,
     'parse_profile': parse_profile,
+    'bootstrap_profile': bootstrap_profile,
     'depends': [],
 }

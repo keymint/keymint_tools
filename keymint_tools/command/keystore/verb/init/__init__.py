@@ -66,6 +66,13 @@ class InitVerb(VerbExtension):
             help='Skip the install step (only makes sense when build has been '
                  'done before and no new files have been added or)',
         )
+        arg = parser.add_argument(
+            '--bootstrap',
+            action='store',
+            default=False,
+            help='Bootstrap the profile step (only makes sense when no profle'
+                 'is first provided to be initialized)',
+        )
 
         # Allow all available policy_type's to provide additional arguments
         for policy_type in yield_supported_policy_types():

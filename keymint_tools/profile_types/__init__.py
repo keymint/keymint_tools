@@ -34,6 +34,14 @@ def parse_profile(path):
     raise RuntimeError("Failed to parse profile in '%s'" % path)
 
 
+def bootstrap_profile(path, profile_type):
+    for _profile_type in get_profile_types():
+        if profile_type == _profile_type['name']:
+            _profile_type['bootstrap_profile'](path)
+            return True
+    raise RuntimeError("Failed to find profile_type: '%s'" % profile_type)
+
+
 _cached_profile_types = None
 
 
