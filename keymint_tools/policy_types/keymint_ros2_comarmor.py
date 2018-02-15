@@ -17,6 +17,8 @@
 import os
 import shutil
 
+from keymint_comarmor.permissions import ComArmorPermissionsHelper
+
 # from keymint_keymake.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
 from keymint_keymake.governance import DDSGovernanceHelper
 from keymint_keymake.permissions import DDSPermissionsHelper
@@ -32,11 +34,11 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
     policy_type = 'keymint_ros2_comarmor'
     description = 'comarmor policy for ROS 2'
 
-    def extend_context(self, opts):
-        ce = ContextExtender()
-        ce.add('skip_build', opts.skip_build)
-        ce.add('skip_install', opts.skip_install)
-        return ce
+    # def extend_context(self, opts):
+    #     ce = ContextExtender()
+    #     ce.add('skip_build', opts.skip_build)
+    #     ce.add('skip_install', opts.skip_install)
+    #     return ce
 
     # def prepare_arguments(self, parser):
     #     return parser
@@ -76,11 +78,19 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
 
 
     def on_create_pkg(self, context):
+        self.comarmor_permissions_helper = ComArmorPermissionsHelper()
         self.dds_permissions_helper = DDSPermissionsHelper()
         self.dds_governance_helper = DDSGovernanceHelper()
         self.dds_identities_helper = DDSIdentitiesHelper()
         yield PolicyAction(self._create_pkg_action, type='function')
 
     def _create_pkg_action(self, context):
+        print("++++ Parsing Profiles")
+        permissions_elm = self.comarmor_permissions_helper.create(context)
+
+        # permissions_file = os.path.join(context.source_space, 'permissions.xml')
+        # with open(permissions_file, 'w') as f:
+        #     f.write(permissions_str)
+
         print("HUZA {}".format(context.pkg_name))
         pass
