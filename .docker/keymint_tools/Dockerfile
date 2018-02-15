@@ -15,8 +15,12 @@ RUN apt-get update -qq && apt-get install -qq -y \
     && rm -rf /var/lib/apt/lists/*
 
 # install keymint dependencies
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+COPY dependency_requirements.txt .
+RUN pip3 install -r dependency_requirements.txt
+
+# install keymint source
+COPY source_requirements.txt .
+RUN pip3 install -r dependency_source.txt
 
 # setup keymint argcomplete
 ENV KEYMINT_ARGCOMPLETE /usr/local/share/keymint_cli/environment/keymint-argcomplete.bash

@@ -1,0 +1,26 @@
+# requirements.txt
+# http://pip.readthedocs.io/en/stable/reference/pip_install/#requirements-file-format
+
+# keymint dependencies from PyPI
+argcomplete
+attrdict
+cryptography
+lxml
+osrf_pycommon
+xmlschema
+
+# ament dependencies from PyPI
+pyparsing
+
+# install M2Crypto for s/mime singing
+# Build dependencies for M2Crypto on Debian:
+# sudo apt-get install build-essential python3-dev python-dev libssl-dev swig
+git+https://gitlab.com/m2crypto/m2crypto.git@master#egg=m2crypto
+
+# install ament for building
+git+git://github.com/ament/ament_package.git@master#egg=ament_package
+git+git://github.com/ament/ament_tools.git@master#egg=ament_tools
+
+git+git://github.com/ament/ament_lint.git@master#egg=ament_copyright&subdirectory=ament_copyright
+git+git://github.com/ament/ament_lint.git@master#egg=ament_flake8&subdirectory=ament_flake8
+git+git://github.com/ament/ament_lint.git@master#egg=ament_pep257&subdirectory=ament_pep257
