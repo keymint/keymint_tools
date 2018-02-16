@@ -17,6 +17,8 @@
 import os
 import shutil
 
+import em
+
 from keymint_comarmor.permissions import ComArmorPermissionsHelper
 
 # from keymint_keymake.exceptions import InvalidPermissionsXML, InvalidGovernanceXML

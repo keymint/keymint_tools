@@ -5,6 +5,7 @@
 argcomplete
 attrdict
 cryptography
+empy
 lxml
 osrf_pycommon
 xmlschema
