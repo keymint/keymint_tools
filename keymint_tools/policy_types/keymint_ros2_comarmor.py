@@ -26,6 +26,7 @@ from keymint_keymake.governance import DDSGovernanceHelper
 from keymint_keymake.permissions import DDSPermissionsHelper
 from keymint_keymake.identities import DDSIdentitiesHelper
 from keymint_keymake.authorities import DDSAuthoritiesHelper
+from keymint_package import templates
 
 from keymint_tools.policy_type import PolicyAction, PolicyType
 
@@ -87,12 +88,36 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
         yield PolicyAction(self._create_pkg_action, type='function')
 
     def _create_pkg_action(self, context):
-        print("++++ Parsing Profiles")
-        permissions_elm = self.comarmor_permissions_helper.create(context)
+        print("++++ Creating '{0}'".format('permissions.xml'))
+        permissions_str = self.comarmor_permissions_helper.create(context)
+        permissions_file = os.path.join(context.source_space, 'permissions.xml')
+        with open(permissions_file, 'w') as f:
+            f.write(permissions_str)
 
-        # permissions_file = os.path.join(context.source_space, 'permissions.xml')
-        # with open(permissions_file, 'w') as f:
-        #     f.write(permissions_str)
+        config = {
+            'pkg_name': context.pkg_name,
+            'package_type': "keymint_ros2_dds"
+        }
 
-        print("HUZA {}".format(context.pkg_name))
-        pass
+        def expand_template(meta_name):
+            meta_template_file = templates.get_package_template_path(meta_name + '.em')
+            with open(meta_template_file, 'r') as f:
+                meta_template_str = f.read()
+            meta_str = em.expand(meta_template_str, config)
+            meta_file = os.path.join(context.source_space, meta_name)
+            with open(meta_file, 'w') as f:
+                f.write(meta_str)
+
+        print("++++ Creating '{0}'".format('governance.xml'))
+        expand_template('governance.xml')
+
+        print("++++ Creating '{0}'".format('identities.xml'))
+        expand_template('identities.xml')
+
+        print("++++ Creating '{0}'".format('keymint_package.xml'))
+        expand_template('keymint_package.xml')
+
+        src = os.path.join(context.profile_space, 'package.defaults')
+        dst = os.path.join(context.source_space, 'package.defaults')
+        if not os.path.isdir(dst):
+            os.symlink(src=src, dst=dst)
