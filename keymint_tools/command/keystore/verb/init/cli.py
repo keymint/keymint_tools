@@ -121,6 +121,9 @@ def create_context(opts):
     context.public_space = opts.public_space
     context.private_space = opts.private_space
     # context.symlink_install = opts.symlink_install
+    # TODO rename these args?
+    context.skip_build = opts.skip_build
+    context.skip_install = opts.skip_install
     context.dry_run = False
     print('')
     print("Utilizing profile '{0}' with context:".format(prf_name))
