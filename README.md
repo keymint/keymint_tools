@@ -4,6 +4,7 @@
 [![docs](https://readthedocs.org/projects/keymint/badge/?version=latest)](https://readthedocs.org/projects/keymint)
 [![build](https://travis-ci.org/keymint/keymint_tools.svg?branch=master)](https://travis-ci.org/keymint/keymint_tools)
 [![codecov](https://codecov.io/github/keymint/keymint_tools/coverage.svg?branch=master)](https://codecov.io/github/keymint/keymint_tools?branch=master)
+[![docker](https://img.shields.io/docker/build/keymint/keymint_tools.svg)](https://hub.docker.com/r/keymint/keymint_tools/builds/)
 
 
 Keymint is a framework for generating cryptographic artifacts used in securing middleware systems like ROS, DDS, etc. Keymint is akin to other build systems, yet instead of compiling source code and installing executables in workspaces like with [`ament`](https://github.com/ament), [`keymint`](https://github.com/keymint) mints keys and notarizes documents in keystores, as the project name's alteration plays upon. Keymint provides users pluggable tools for automating the provision process for customizing PKI artifacts used with SROS, or Secure DDS plugins.
