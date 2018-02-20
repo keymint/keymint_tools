@@ -28,6 +28,105 @@ For detailed instillation setup, please view the included Dockerfile provided wi
 docker run -it keymint/keymint_tools
 ```
 
+## Example
+As a simple example, we'll create a working keystore for SROS2 to enable talker listener node pair. To start, the keymint keystore first needs to be initialized. Using the bootstrap argument, a template is used to generate a generic profile. In addition, designated certificate authorities (CA) specified with in the generated keymint profile is created.
+
+``` bash
+mkdir ~/keystore_ws
+cd ~/keystore_ws
+keymint keystore init --bootstrap keymint_ros
+tree .
+.
+├── private
+│   ├── ca.csr.pem
+│   └── ca.key.pem
+├── profile
+│   ├── authorities.xml
+│   ├── comarmor.d
+│   │   └── example.xml
+│   ├── keymint_profile.xml
+│   ├── package.defaults
+│   │   ├── governance.xml
+│   │   ├── identities.xml
+│   │   └── permissions.xml
+│   ├── policies.xml
+│   └── profile.defaults
+│       └── authorities.xml
+└── public
+    └── ca.cert.pem
+```
+
+Using the ComArmor profile provided by the template we next create a set of keymint packages to encapsulate the intermediate configuration of the cryptographic artifacts necessary for SROS.
+
+``` bash
+keymint keystore create_pkg talker
+keymint keystore create_pkg listener
+tree .
+.
+...
+└── src
+    ├── listener
+    │   ├── governance.xml
+    │   ├── identities.xml
+    │   ├── keymint_package.xml
+    │   ├── package.defaults -> ../../profile/package.defaults
+    │   └── permissions.xml
+    └── talker
+        ├── governance.xml
+        ├── identities.xml
+        ├── keymint_package.xml
+        ├── package.defaults -> ../../profile/package.defaults
+        └── permissions.xml
+```
+
+Finlay, we'll build and install our new keymint packages to generate the sing the resulting artifacts used directly by SROS2. This stage of the processes essentially translates the ROS centric policies and permission definitions into transport specific documents used by Secure DDS plugins.
+
+``` bash
+keymint keystore build_pkg src/talker
+keymint keystore build_pkg src/listener
+tree .
+.
+├── build
+│   ├── listener
+│   │   ├── csr.pem
+│   │   ├── governance.xml
+│   │   ├── key.pem
+│   │   └── permissions.xml
+│   └── talker
+│       ├── csr.pem
+│       ├── governance.xml
+│       ├── key.pem
+│       └── permissions.xml
+├── install
+│   ├── listener
+│   │   ├── cert.pem
+│   │   ├── governance.p7s
+│   │   ├── key.pem
+│   │   └── permissions.p7s
+│   └── talker
+│       ├── cert.pem
+│       ├── governance.p7s
+│       ├── key.pem
+│       └── permissions.p7s
+...
+```
+
+To use our keystore with SROS2, we can adapt install directory to accommodate ROS2 Ardent expected location of the certificate authority.
+
+``` bash
+cp public/ca.cert.pem install/talker
+cp public/ca.cert.pem install/listener
+
+export ROS_SECURITY_ROOT_DIRECTORY=~/keymint_ws/install
+export ROS_SECURITY_ENABLE=true
+export ROS_SECURITY_STRATEGY=Enforce
+
+ros2 run demo_nodes_cpp listener &
+ros2 run demo_nodes_cpp talker
+# To stop
+^-C
+kill %1
+```
 
 ## Commands
 
