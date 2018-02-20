@@ -20,7 +20,7 @@ RUN pip3 install -r dependency_requirements.txt
 
 # install keymint source
 COPY source_requirements.txt .
-RUN pip3 install -r dependency_source.txt
+RUN pip3 install -r source_requirements.txt
 
 # setup keymint argcomplete
 ENV KEYMINT_ARGCOMPLETE /usr/local/share/keymint_cli/environment/keymint-argcomplete.bash

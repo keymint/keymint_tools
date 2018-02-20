@@ -1,7 +1,7 @@
 #!/bin/bash
 
-WS=${HOME}/ws/keymint
-# mkdir -p ${WS}
+WS=${HOME}/keymint_ws
+mkdir -p ${WS}
 
 IMAGE="keymint/keymint_tools"
 
