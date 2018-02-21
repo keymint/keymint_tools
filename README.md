@@ -21,7 +21,7 @@ Keymint's approach in minting cryptographic artifacts resembles that other commo
 
 
 
-## Instillation
+## Installation
 
 For detailed instillation setup, please view the included Dockerfile provided within the `.docker` directory. While keymint also provides `package.xml` files for ament instillation, pre-built Docker images are also hosted on Docker Hub:
 
