@@ -1,8 +1,9 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
 # install system dependencies
 RUN apt-get update -qq && apt-get install -qq -y \
       git \
+      tree \
       python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
