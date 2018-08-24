@@ -162,6 +162,20 @@ class KeymintROS2DDSBuildType(BuildType):
             with open(dds_cert_file, 'wb') as f:
                 f.write(dds_identity['dds_cert']['bytes'])
 
+        public_certs = os.listdir(context.public_space)
+        print("++++ Installing '{0}'".format(public_certs))
+        for public_cert in public_certs:
+            src = os.path.join(context.public_space, public_cert)
+            dst = os.path.join(context.install_space, public_cert)
+            relativepath = os.path.relpath(src, context.install_space)
+            try:
+                os.symlink(src=relativepath, dst=dst)
+            except FileExistsError as err:
+                if not os.path.samefile(src, dst):
+                    print("Existing symlink does not mach!")
+                    raise
+
+
     def _remove_empty_directories(self, context, path):
         assert path.startswith(context.install_space), \
             "The path '%s' must be within the install space '%s'" % (path, context.install_space)
