@@ -119,5 +119,10 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
 
         src = os.path.join(context.profile_space, 'package.defaults')
         dst = os.path.join(context.source_space, 'package.defaults')
-        if not os.path.isdir(dst):
-            os.symlink(src=src, dst=dst)
+        relativepath = os.path.relpath(src, context.source_space)
+        try:
+            os.symlink(src=relativepath, dst=dst)
+        except FileExistsError as err:
+            if not os.path.samefile(src, dst):
+                print("Existing symlink does not mach!")
+                raise
