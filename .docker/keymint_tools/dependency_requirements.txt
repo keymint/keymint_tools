@@ -8,7 +8,7 @@ cryptography
 empy
 lxml
 osrf_pycommon
-xmlschema
+xmlschema==1.0.3
 
 # ament dependencies from PyPI
 pyparsing
