@@ -15,26 +15,27 @@ Command line tools for using keymint are collected within the [`keymint_tools`](
 
 To provide privacy, authenticity and integrity in middleware systems such as SROS or Secure DDS, each node in the disturbed computation graph or participant on the data buss is attributed to an identity. This is commonly done by provisioning each with a certificate, singed by a trusted Certificate Authority (CA), using established Public Key Infrastructure (PKI). In addition, access control may also be enforced by allocating given roles or attributes to participants, e.g scope of actions or topics permitted, by way of singed and verifiable control policy. Properly generating, maintaining and distributing the number of singed public certificates, ciphered private keys, and access control documents attributed to every identity within a scalable and distributed network can prove beyond tedious and error prone. To help mitigate the risks of improper provisioning, keymint has been developed to provide users an automation approach for systematic generation of necessary cryptographic artifacts in a familiar yet expandable build system layout via workspaces and plugins.
 
-Keymint's approach in minting cryptographic artifacts resembles that other common build systems, such as ament, used to compile binary artifacts from source code. Similarly, users create `keymint_package`s within an workspace initialized by a `keymint_profile`; a package being a structured source manifest describing how and what artifacts to be generated for an identity, while the workspace provides a tunable profile to adjust the global build context for all packages. In addition, keymint shares a staggered development cycle, where a workspace is "initialized", "built", and "installed". While each stage in the cycle is subject to the behavior of the plugin invoked, an expected use case for SROS or Secure DDS middlewares are as follows:
-
-1. TODO
-
+Keymint's approach in minting cryptographic artifacts resembles that other common build systems, such as ament, used to compile binary artifacts from source code. Similarly, users create `keymint_package`s within an workspace initialized by a `keymint_profile`; a package being a structured source manifest describing how and what artifacts to be generated for an identity, while the workspace provides a tunable profile to adjust the global build context for all packages. In addition, keymint shares a staggered development cycle, where a workspace is "initialized", "built", and "installed".
 
 
 ## Installation
 
-For detailed instillation setup, please view the included Dockerfile provided within the `.docker` directory. While keymint also provides `package.xml` files for ament instillation, pre-built Docker images are also hosted on Docker Hub:
+For detailed instillation setup, please view the included Dockerfile provided within the `.docker` directory. While keymint also provides `package.xml` files for ament instillation, pre-built Docker images are also hosted on Docker Hub. Here is an example of mounting a target workspace in temporary Keymint container while keeping user permissions:
 
 ``` bash
-docker run -it keymint/keymint_tools
+export KEYMINT_WS=$HOME/keymint_ws
+mkdir $KEYMINT_WS
+docker run -it --rm \
+    --workdir=$KEYMINT_WS \
+    --volume=$KEYMINT_WS:$KEYMINT_WS:rw \
+    --user=`id -u $USER` \
+    keymint/keymint_tools
 ```
 
 ## Example
 As a simple example, we'll create a working keystore for SROS2 to enable talker listener node pair. To start, the keymint keystore first needs to be initialized. Using the bootstrap argument, a template is used to generate a generic profile. In addition, designated certificate authorities (CA) specified with in the generated keymint profile is created.
 
 ``` bash
-mkdir ~/keystore_ws
-cd ~/keystore_ws
 keymint keystore init --bootstrap keymint_ros
 tree .
 .
