@@ -47,12 +47,12 @@ class CreatePkgVerb(VerbExtension):
         )
         arg.completer = FilesCompleter()
         arg = parser.add_argument(
-            '--public_space',
+            '--public-space',
             help="Path to the public space (default 'CWD/public')",
         )
         arg.completer = FilesCompleter()
         arg = parser.add_argument(
-            '--private_space',
+            '--private-space',
             help="Path to the private space (default 'CWD/private')",
         )
 
