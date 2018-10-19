@@ -16,11 +16,10 @@ install:
   - pip install cryptography
   - pip install empy
   - pip install lxml
+  - pip install M2Crypto
   - pip install osrf_pycommon
   - pip install xmlschema
-# Install M2Crypto from git via master branch for s/mime singing
-  - pip install git+https://gitlab.com/m2crypto/m2crypto.git@master#egg=m2crypto
-# Install ComAArmor from git via master branch for profile language
+# Install ComArmor from git via master branch for profile language
   - pip install git+https://github.com/ComArmor/comarmor.git@master#egg=comarmor
 # Install dependent keymint packages from git
   - pip install git+git://github.com/keymint/keymint_cli.git@master#egg=keymint_cli
