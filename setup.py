@@ -3,8 +3,8 @@ import sys
 from setuptools import find_packages
 from setuptools import setup
 
-if sys.version_info < (3, 5):
-    print('keymint requires Python 3.5 or higher.', file=sys.stderr)
+if sys.version_info < (3, 6):
+    print('keymint requires Python 3.6 or higher.', file=sys.stderr)
     sys.exit(1)
 
 setup(
