@@ -27,11 +27,6 @@ class TestExample(unittest.TestCase):
     def setUp(self):
         # Create a temporary directory
         self.test_dir = tempfile.mkdtemp()
-        # Remember previous working directory
-        self.pwd = os.getcwd()
-        # Change to the temporary directory
-        os.environ.unsetenv('PWD')
-        os.chdir(self.test_dir)
 
         self.private_space = os.path.join(self.test_dir, 'private')
         self.profile_space = os.path.join(self.test_dir, 'profile')
@@ -40,9 +35,6 @@ class TestExample(unittest.TestCase):
     def tearDown(self):
         # Remove the temporary directory
         shutil.rmtree(self.test_dir)
-        # Change to the previous working directory
-        os.chdir(self.pwd)
-        os.environ['PWD'] = self.pwd
 
     def test_keystore_cli(self):
 
@@ -86,7 +78,7 @@ class TestExample(unittest.TestCase):
 
             # Build keystore packages
             self.assertEqual(main(argv=['keystore', 'build_pkg',
-                                        os.path.join('src', package_name),
+                                        os.path.join(self.test_dir, 'src', package_name),
                                         '--build-space', build_space,
                                         '--install-space', install_space,
                                         '--private-space', self.private_space,
@@ -95,7 +87,7 @@ class TestExample(unittest.TestCase):
 
             # Install keystore packages
             self.assertEqual(main(argv=['keystore', 'build_pkg',
-                                        os.path.join('src', package_name),
+                                        os.path.join(self.test_dir, 'src', package_name),
                                         '--build-space', build_space,
                                         '--install-space', install_space,
                                         '--private-space', self.private_space,
