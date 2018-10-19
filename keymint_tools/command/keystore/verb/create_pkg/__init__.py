@@ -47,12 +47,12 @@ class CreatePkgVerb(VerbExtension):
         )
         arg.completer = FilesCompleter()
         arg = parser.add_argument(
-            '--public_space',
+            '--public-space',
             help="Path to the public space (default 'CWD/public')",
         )
         arg.completer = FilesCompleter()
         arg = parser.add_argument(
-            '--private_space',
+            '--private-space',
             help="Path to the private space (default 'CWD/private')",
         )
 
@@ -65,5 +65,4 @@ class CreatePkgVerb(VerbExtension):
 
     def main(self, *, args):
         """Call create function."""
-        success = main(args)
-        return 0 if success else 1
+        return main(args)
