@@ -65,9 +65,9 @@ class TestExample(unittest.TestCase):
 
         # Initialize keystore
         self.assertEqual(main(argv=['keystore', 'init', '--bootstrap', 'keymint_ros',
-                                    # '--private-space', self.private_space,
-                                    # '--profile-space', self.profile_space,
-                                    # '--public-space', self.public_space,
+                                    '--private-space', self.private_space,
+                                    '--profile-space', self.profile_space,
+                                    '--public-space', self.public_space,
                                     ]), SUCCSESS)
 
         for package_name in package_names:
