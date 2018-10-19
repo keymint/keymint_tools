@@ -16,15 +16,14 @@ import os
 import re
 import sys
 
-from keymint_tools.policy_type_discovery import get_class_for_policy_type
-from keymint_tools.context import Context
-from keymint_tools.helper import determine_path_argument
-
 from keymint_tools.command.keystore.verb.init.cli import (
     _get_cached_profile_manifest,
     get_policy_type,
     handle_policy_action,
 )
+from keymint_tools.context import Context
+from keymint_tools.helper import determine_path_argument
+from keymint_tools.policy_type_discovery import get_class_for_policy_type
 
 
 def validate_package_name(name):
@@ -86,8 +85,8 @@ def update_options(opts):
     pkg_name = opts.name
     pkg_namespace = os.path.normpath(pkg_name)
     default_source_space = os.path.join('src', pkg_namespace)
-    opts.source_space = determine_path_argument(cwd, opts.directory,
-                                           opts.source_space, default_source_space)
+    opts.source_space = determine_path_argument(
+        cwd, opts.directory, opts.source_space, default_source_space)
 
 
 def create_context(opts):

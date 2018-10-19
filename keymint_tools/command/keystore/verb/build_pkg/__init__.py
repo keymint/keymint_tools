@@ -15,9 +15,7 @@
 import os
 
 from keymint_tools.build_type_discovery import yield_supported_build_types
-
 from keymint_tools.helper import argparse_existing_dir
-
 from keymint_tools.verb import VerbExtension
 from keymint_tools.verb.common import FilesCompleter
 # from keymint_tools.verb.common import NamespaceCompleter

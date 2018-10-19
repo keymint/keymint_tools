@@ -19,10 +19,10 @@ import shutil
 # import re
 # import shutil
 
-from keymint_keymake.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
+from keymint_keymake.exceptions import InvalidGovernanceXML, InvalidPermissionsXML
 from keymint_keymake.governance import DDSGovernanceHelper
-from keymint_keymake.permissions import DDSPermissionsHelper
 from keymint_keymake.identities import DDSIdentitiesHelper
+from keymint_keymake.permissions import DDSPermissionsHelper
 
 from keymint_tools.build_type import BuildAction
 from keymint_tools.build_type import BuildType
@@ -38,11 +38,11 @@ class KeymintROS2DDSBuildType(BuildType):
     description = 'keymint package built for ROS 2'
 
     def prepare_arguments(self, parser):
-        arg = parser.add_argument(
+        parser.add_argument(
             '-f', '--force',
             action='store_true',
             help='overwrite existing builds')
-        arg = parser.add_argument(
+        parser.add_argument(
             '-u', '--unsigned',
             action='store_true',
             help='leave builds unsigned')
@@ -172,9 +172,8 @@ class KeymintROS2DDSBuildType(BuildType):
                 os.symlink(src=relativepath, dst=dst)
             except FileExistsError as err:
                 if not os.path.samefile(src, dst):
-                    print("Existing symlink does not mach!")
+                    print('Existing symlink does not mach!')
                     raise
-
 
     def _remove_empty_directories(self, context, path):
         assert path.startswith(context.install_space), \

@@ -13,19 +13,18 @@
 # limitations under the License.
 
 import os
-import re
+# import re
 import sys
 
-from keymint_tools.policy_type_discovery import get_class_for_policy_type
-# from keymint_tools.policy_type_discovery import MissingPluginError
+from keymint_tools.base_type_helper import handle_base_action
 from keymint_tools.context import Context
 from keymint_tools.helper import determine_path_argument
 # from ament_tools.helper import extract_argument_group
-from keymint_tools.profile_types import profile_exists_at
-from keymint_tools.profile_types import parse_profile
+from keymint_tools.policy_type_discovery import get_class_for_policy_type
+# from keymint_tools.policy_type_discovery import MissingPluginError
 from keymint_tools.profile_types import bootstrap_profile
-
-from keymint_tools.base_type_helper import handle_base_action
+# from keymint_tools.profile_types import profile_exists_at
+from keymint_tools.profile_types import parse_profile
 
 profile_cache_ = {}
 

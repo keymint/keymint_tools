@@ -48,7 +48,8 @@ _cached_profile_types = None
 def get_profile_types(force_loading_entry_points=False):
     global _cached_profile_types
     if _cached_profile_types is None or force_loading_entry_points:
-        entry_points = list(pkg_resources.iter_entry_points(group=KEYMINT_PROFILE_TYPES_ENTRY_POINT))
+        entry_points = list(pkg_resources.iter_entry_points(
+            group=KEYMINT_PROFILE_TYPES_ENTRY_POINT))
         if not entry_points:
             raise RuntimeError('No profile type entry points')
         entry_points_data = [ep.load() for ep in entry_points]

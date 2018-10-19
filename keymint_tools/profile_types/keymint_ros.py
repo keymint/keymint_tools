@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from keymint_profile import PROFILE_MANIFEST_FILENAME
-from keymint_profile import profile_exists_at
-from keymint_profile import parse_profile
 from keymint_profile import bootstrap_profile
+from keymint_profile import parse_profile
+from keymint_profile import profile_exists_at
+from keymint_profile import PROFILE_MANIFEST_FILENAME
 
 __all__ = ('entry_point_data')
 

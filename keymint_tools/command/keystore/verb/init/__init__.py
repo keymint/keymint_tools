@@ -12,12 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
-from keymint_tools.policy_type_discovery import yield_supported_policy_types
+# import os
 
 from keymint_tools.helper import argparse_existing_dir
-
+from keymint_tools.policy_type_discovery import yield_supported_policy_types
 from keymint_tools.verb import VerbExtension
 from keymint_tools.verb.common import FilesCompleter
 # from keymint_tools.verb.common import NamespaceCompleter

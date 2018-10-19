@@ -40,7 +40,8 @@ _cached_package_types = None
 def get_package_types(force_loading_entry_points=False):
     global _cached_package_types
     if _cached_package_types is None or force_loading_entry_points:
-        entry_points = list(pkg_resources.iter_entry_points(group=KEYMINT_PACKAGE_TYPES_ENTRY_POINT))
+        entry_points = list(pkg_resources.iter_entry_points(
+            group=KEYMINT_PACKAGE_TYPES_ENTRY_POINT))
         if not entry_points:
             raise RuntimeError('No package type entry points')
         entry_points_data = [ep.load() for ep in entry_points]

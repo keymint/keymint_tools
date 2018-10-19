@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from keymint_cli.command import CommandExtension
 from keymint_cli.command import add_subparsers
+from keymint_cli.command import CommandExtension
 from keymint_cli.verb import get_verb_extensions
 
 

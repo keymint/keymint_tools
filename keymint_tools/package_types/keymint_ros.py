@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from keymint_package import PACKAGE_MANIFEST_FILENAME
 from keymint_package import package_exists_at
+from keymint_package import PACKAGE_MANIFEST_FILENAME
 from keymint_package import parse_package
 
 __all__ = ('entry_point_data')

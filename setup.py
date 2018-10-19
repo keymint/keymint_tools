@@ -49,16 +49,20 @@ and provides tooling to build these federated keystores together.""",
             'test_pkg = keymint_tools.command.keystore.verb.test_pkg:TestPkgVerb',
         ],
         'keymint.build_types': [
-            'keymint_ros2_dds = keymint_tools.build_types.keymint_ros2_dds:KeymintROS2DDSBuildType',
+            'keymint_ros2_dds = '
+            'keymint_tools.build_types.keymint_ros2_dds:KeymintROS2DDSBuildType',
         ],
         'keymint.package_types': [
-            'keymint_ros = keymint_tools.package_types.keymint_ros:entry_point_data',
+            'keymint_ros = '
+            'keymint_tools.package_types.keymint_ros:entry_point_data',
         ],
         'keymint.profile_types': [
-            'keymint_ros = keymint_tools.profile_types.keymint_ros:entry_point_data',
+            'keymint_ros = '
+            'keymint_tools.profile_types.keymint_ros:entry_point_data',
         ],
         'keymint.policy_types': [
-            'keymint_ros2_comarmor = keymint_tools.policy_types.keymint_ros2_comarmor:KeymintROS2ComarmorPolicyType',
+            'keymint_ros2_comarmor = '
+            'keymint_tools.policy_types.keymint_ros2_comarmor:KeymintROS2ComarmorPolicyType',
         ],
     },
 )

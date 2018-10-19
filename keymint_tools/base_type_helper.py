@@ -18,10 +18,11 @@ import shlex
 import subprocess
 import sys
 
+
 def run_command(base_action, context, default_cwd):
     cwd = base_action.cwd
     if cwd is None:
-        cwd = default_cwd  #context.build_space
+        cwd = default_cwd  # context.build_space
     print("==> '{0}' in '{1}'".format(' '.join(base_action.cmd), cwd))
     # flush Python output before letting the external command write to the pipe
     sys.stdout.flush()

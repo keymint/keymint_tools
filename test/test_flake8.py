@@ -16,5 +16,6 @@ from ament_flake8.main import main
 
 
 def test_flake8():
-    rc = main(argv=[])
+    excluded = ['conf.py']
+    rc = main(argv=['--exclude'] + excluded)
     assert rc == 0, 'Found errors'

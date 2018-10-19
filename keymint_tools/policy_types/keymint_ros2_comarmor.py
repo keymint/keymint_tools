@@ -15,22 +15,23 @@
 """Implements the PolicyType support for ros2 based comarmor policies."""
 
 import os
-import shutil
+# import shutil
 
 import em
 
 from keymint_comarmor.permissions import ComArmorPermissionsHelper
 
+# from keymint_tools.context import ContextExtender
+
 # from keymint_keymake.exceptions import InvalidPermissionsXML, InvalidGovernanceXML
-from keymint_keymake.governance import DDSGovernanceHelper
-from keymint_keymake.permissions import DDSPermissionsHelper
-from keymint_keymake.identities import DDSIdentitiesHelper
 from keymint_keymake.authorities import DDSAuthoritiesHelper
+from keymint_keymake.governance import DDSGovernanceHelper
+from keymint_keymake.identities import DDSIdentitiesHelper
+from keymint_keymake.permissions import DDSPermissionsHelper
+
 from keymint_package import templates
 
 from keymint_tools.policy_type import PolicyAction, PolicyType
-
-from keymint_tools.context import ContextExtender
 
 
 class KeymintROS2ComarmorPolicyType(PolicyType):
@@ -53,7 +54,7 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
     def _init_action(self, context):
         if context.profile_manifest.authorities is not None:
             if not context.skip_build:
-                print("++++ Building Authorities")
+                print('++++ Building Authorities')
                 dds_authorities_iter = self.dds_authorities_helper.build_iter(context)
                 for dds_authority in dds_authorities_iter:
                     print("+++++ Building '{0}'".format(dds_authority['name']))
@@ -69,7 +70,7 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
                         f.write(dds_authority['dds_csr']['bytes'])
 
             if not context.skip_install:
-                print("++++ Installing Authorities")
+                print('++++ Installing Authorities')
                 dds_authorities_iter = self.dds_authorities_helper.install_iter(context)
                 for dds_authority in dds_authorities_iter:
                     print("+++++ Installing '{0}'".format(dds_authority['name']))
@@ -78,7 +79,6 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
                         dds_authority['name'] + '.cert.pem')
                     with open(dds_csr_file, 'wb') as f:
                         f.write(dds_authority['dds_cert']['bytes'])
-
 
     def on_create_pkg(self, context):
         self.comarmor_permissions_helper = ComArmorPermissionsHelper()
@@ -96,7 +96,7 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
 
         config = {
             'pkg_name': context.pkg_name,
-            'package_type': "keymint_ros2_dds"
+            'package_type': 'keymint_ros2_dds'
         }
 
         def expand_template(meta_name):
@@ -124,5 +124,5 @@ class KeymintROS2ComarmorPolicyType(PolicyType):
             os.symlink(src=relativepath, dst=dst)
         except FileExistsError as err:
             if not os.path.samefile(src, dst):
-                print("Existing symlink does not mach!")
+                print('Existing symlink does not mach!')
                 raise
