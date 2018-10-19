@@ -89,5 +89,4 @@ class BuildPkgVerb(VerbExtension):
 
     def main(self, *, args):
         """Call build function."""
-        success = main(args)
-        return 0 if success else 1
+        return main(args)
