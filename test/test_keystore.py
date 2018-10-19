@@ -33,6 +33,10 @@ class TestExample(unittest.TestCase):
         os.environ.unsetenv('PWD')
         os.chdir(self.test_dir)
 
+        self.private_space = os.path.join(self.test_dir, 'private')
+        self.profile_space = os.path.join(self.test_dir, 'profile')
+        self.public_space = os.path.join(self.test_dir, 'public')
+
     def tearDown(self):
         # Remove the temporary directory
         shutil.rmtree(self.test_dir)
@@ -60,24 +64,42 @@ class TestExample(unittest.TestCase):
                         package_node).rstrip('/'))
 
         # Initialize keystore
-        self.assertEqual(main(argv=['keystore', 'init', '--bootstrap',
-                                    'keymint_ros']), SUCCSESS)
+        self.assertEqual(main(argv=['keystore', 'init', '--bootstrap', 'keymint_ros',
+                                    # '--private-space', self.private_space,
+                                    # '--profile-space', self.profile_space,
+                                    # '--public-space', self.public_space,
+                                    ]), SUCCSESS)
 
-        # Create keystore packages
         for package_name in package_names:
-            self.assertEqual(main(argv=['keystore', 'create_pkg',
-                                        package_name]), SUCCSESS)
 
-        # Build keystore packages
-        for package_name in package_names:
+            build_space = os.path.join(self.test_dir, 'build', package_name)
+            install_space = os.path.join(self.test_dir, 'install', package_name)
+            source_space = os.path.join(self.test_dir, 'src', package_name)
+
+            # Create keystore packages
+            self.assertEqual(main(argv=['keystore', 'create_pkg', package_name,
+                                        '--source-space', source_space,
+                                        '--private-space', self.private_space,
+                                        '--profile-space', self.profile_space,
+                                        '--public-space', self.public_space,
+                                        ]), SUCCSESS)
+
+            # Build keystore packages
             self.assertEqual(main(argv=['keystore', 'build_pkg',
                                         os.path.join('src', package_name),
+                                        '--build-space', build_space,
+                                        '--install-space', install_space,
+                                        '--private-space', self.private_space,
+                                        '--public-space', self.public_space,
                                         '--skip-install']), SUCCSESS)
 
-        # Install keystore packages
-        for package_name in package_names:
+            # Install keystore packages
             self.assertEqual(main(argv=['keystore', 'build_pkg',
                                         os.path.join('src', package_name),
+                                        '--build-space', build_space,
+                                        '--install-space', install_space,
+                                        '--private-space', self.private_space,
+                                        '--public-space', self.public_space,
                                         '--skip-build']), SUCCSESS)
 
 
